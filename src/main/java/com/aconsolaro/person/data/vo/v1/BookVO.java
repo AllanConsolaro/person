@@ -1,6 +1,8 @@
 package com.aconsolaro.person.data.vo.v1;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 
 import org.springframework.hateoas.RepresentationModel;
 
@@ -11,13 +13,13 @@ import lombok.ToString;
 @Data
 @ToString
 @EqualsAndHashCode(callSuper = false)
-public class PersonVO extends RepresentationModel<PersonVO> implements Serializable {
+public class BookVO extends RepresentationModel<BookVO> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private String firstName;
-	private String lastName;
-	private String address;
-	private String gender;
+	private String author;
+	private Date launchDate;
+	private BigDecimal price;
+	private String title;
 }
