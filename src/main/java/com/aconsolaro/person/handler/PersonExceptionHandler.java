@@ -10,7 +10,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.aconsolaro.person.exception.ResponseException;
-import com.aconsolaro.person.exception.UnsuportedMathOperationException;
+import com.aconsolaro.person.exception.ResourceNotFoundException;
 
 @ControllerAdvice
 public class PersonExceptionHandler extends ResponseEntityExceptionHandler {
@@ -21,8 +21,8 @@ public class PersonExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@ExceptionHandler(UnsuportedMathOperationException.class)
-	public final ResponseEntity<ResponseException> handleUnsuportedMathOperationException(UnsuportedMathOperationException ex, WebRequest request) {
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public final ResponseEntity<ResponseException> handleUnsuportedMathOperationException(ResourceNotFoundException ex, WebRequest request) {
 		ResponseException response = new ResponseException(new Date(), ex.getMessage(), request.getDescription(false));
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}

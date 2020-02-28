@@ -1,54 +1,49 @@
 package com.aconsolaro.person.services;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.aconsolaro.person.domain.Person;
+import com.aconsolaro.person.adapter.DozerAdapter;
+import com.aconsolaro.person.data.model.Person;
+import com.aconsolaro.person.data.vo.v1.PersonVO;
+import com.aconsolaro.person.exception.ResourceNotFoundException;
+import com.aconsolaro.person.repository.PersonRepository;
 
 @Service
 public class PersonServices {
 
-	private final AtomicLong counter = new AtomicLong();
+	@Autowired
+	private PersonRepository repository;
 	
-	public Person create(Person person) {
-		person.setId(counter.incrementAndGet());
-		return person;
+	public PersonVO create(PersonVO person) {
+		var entity = DozerAdapter.parseObject(person, Person.class);
+		var entitySave = repository.save(entity);
+		return DozerAdapter.parseObject(entitySave, PersonVO.class);
 	}
 
-	public Person update(Person person) {
-		return person;
-	}
-
-	public void delete(String id) {
-		System.out.println(id);
-	}
-	
-	public Person findById(String id) {
-		Person person = new Person();
-		person.setId(counter.incrementAndGet());
-		person.setFirstName("Allan");
-		person.setLastName("Consolaro");
-		person.setAddress("Rua das couves, 776");
-		person.setGender("Male");
+	public PersonVO update(PersonVO person) {
+		var entity = repository.findById(person.getId()).orElseThrow(() -> new ResourceNotFoundException("No records found for this id!"));
+		entity.setFirstName(person.getFirstName());
+		entity.setLastName(person.getLastName());
+		entity.setAddress(person.getAddress());
+		entity.setGender(person.getGender());
 		
-		return person;
+		var save = repository.save(entity);
+		return DozerAdapter.parseObject(save, PersonVO.class);
 	}
 
-	public List<Person> findAll() {
-		List<Person> lista = new ArrayList<>();
-		for (int i = 0; i < 8; i++) {
-			Person person = new Person();
-			person.setId(counter.incrementAndGet());
-			person.setFirstName("Allan " + i);
-			person.setLastName("Consolaro " + i);
-			person.setAddress("Rua das couves, 776 " + i);
-			person.setGender("Male");
-			
-			lista.add(person);
-		}
-		return lista;
+	public void delete(Long id) {
+		repository.deleteById(id);
+	}
+	
+	public PersonVO findById(Long id) {
+		var entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this id!"));
+		return DozerAdapter.parseObject(entity, PersonVO.class);
+	}
+
+	public List<PersonVO> findAll() {
+		return DozerAdapter.parseListObjects(repository.findAll(), PersonVO.class);
 	}
 }

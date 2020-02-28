@@ -1,10 +1,10 @@
-package com.aconsolaro.person.service;
+package com.aconsolaro.person;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PersonServiceApplicationTests {
+class PersonApplicationTests {
 
 	@Test
 	void contextLoads() {

@@ -1,4 +1,4 @@
-package com.aconsolaro.person.domain;
+package com.aconsolaro.person.data.vo.v1;
 
 import java.io.Serializable;
 
@@ -9,7 +9,7 @@ import lombok.ToString;
 @Data
 @ToString
 @EqualsAndHashCode
-public class Person implements Serializable {
+public class PersonVO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

@@ -1,0 +1,1 @@
+INSERT INTO `person` VALUES (1,'Praça Itaquirai, 10 Ap 54','Allan','Male','Consolaro');
